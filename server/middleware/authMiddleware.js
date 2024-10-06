@@ -8,15 +8,16 @@ module.exports = function (req, res, next) {
     }
     try {
         //// Bearer asfasnfkajsfnjk так обычно выглядит токен, сначала его тип потом он через пробел
-        const token = req.headers.authorization.split(' ')[1]
+        const token = req.headers.authorization.split(' ')[1];
         if (!token) {
-            return res.status(401).json({message: "Не авторизован"})
+            return res.status(401).json({ message: "Не авторизован" });
         }
-        // раскодируем токен
-        const decoded = jwt.verify(token, process.env.SECRET_KEY)
-        req.user = decoded
-        next()
+        const decoded = jwt.verify(token, process.env.SECRET_KEY);
+        console.log('Decoded token:', decoded);
+        req.user = decoded;
+        next();
     } catch (e) {
-        res.status(401).json({message: "Не авторизован"})
+        console.error(e);
+        return res.status(401).json({ message: "Не авторизован" });
     }
 };
