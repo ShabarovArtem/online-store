@@ -13,7 +13,7 @@ class UserBasketDeviceController {
                 return next(ApiError.badRequest('Корзина не найдена для данного пользователя'));
             }
 
-            // Ищем устройство по id
+            // Проверяем существует ли устройство по id
             const device = await Device.findOne({ where: { id: deviceId } });
             if (!device) {
                 return next(ApiError.badRequest('Устройство не найдено'));
