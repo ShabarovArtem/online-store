@@ -4,6 +4,6 @@ const userBasketDeviceController = require('../controllers/userBasketDeviceContr
 const authMiddleware = require("../middleware/authMiddleware");
 
 router.post('/add',authMiddleware, userBasketDeviceController.addDeviceToBasket)
-//router.get('/', authMiddleware, userBasketDeviceController.getAll)
+router.get('/', authMiddleware, userBasketDeviceController.getAll)
 
 module.exports = router
