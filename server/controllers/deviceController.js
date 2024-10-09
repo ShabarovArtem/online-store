@@ -1,6 +1,7 @@
 const uuid = require('uuid')
 const ApiError = require('../error/ApiError');
 const path = require("path");
+const fs = require('fs');  // Добавляем модуль fs для работы с файлами
 const {Device, DeviceInfo} = require('../models/models')
 
 class DeviceController {
@@ -71,6 +72,43 @@ class DeviceController {
         )
         return res.json(device)
     }
+
+    async delete(req, res, next) {
+        try {
+            const { deviceId } = req.body;
+
+            // Проверяем, существует ли устройство по id
+            const device = await Device.findOne({ where: { id: deviceId } });
+            if (!device) {
+                return next(ApiError.badRequest('Устройство не найдено'));
+            }
+
+            // Удаление файла изображения, связанного с устройством
+            const filePath = path.resolve(__dirname, '..', 'static', device.img);
+
+            // Проверяем, существует ли файл, и удаляем его
+            if (fs.existsSync(filePath)) {
+                fs.unlink(filePath, (err) => {
+                    if (err) {
+                        console.error('Ошибка при удалении файла:', err);
+                    } else {
+                        console.log('Файл успешно удален:', device.img);
+                    }
+                });
+            } else {
+                console.log('Файл для удаления не найден:', device.img);
+            }
+
+            // Удаляем устройство из базы данных
+            await device.destroy();
+
+            return res.json({ message: 'Устройство и связанные файлы удалены' });
+        } catch (error) {
+            console.error(error);
+            return next(ApiError.internal('Ошибка при удалении устройства'));
+        }
+    }
+
 }
 
 module.exports = new DeviceController()
