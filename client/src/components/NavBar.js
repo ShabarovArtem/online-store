@@ -14,8 +14,9 @@ const NavBar = observer(() => {
     const navigate = useNavigate(); // Замена useHistory на useNavigate
 
     const logOut = () => {
-        user.setUser({});
-        user.setIsAuth(false);
+        localStorage.removeItem('token');
+        user.setUser(null);
+        user.setIsAuth(false)
     };
 
     return (

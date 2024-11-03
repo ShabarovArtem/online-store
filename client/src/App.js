@@ -13,8 +13,14 @@ const App = observer(() => {
 
     useEffect(() => {
         check().then(data => {
-            user.setUser(true);
-            user.setIsAuth(true);
+            if (data) {
+                user.setUser(data);  // сохраняем данные пользователя
+                user.setIsAuth(true);
+            } else {
+                user.setIsAuth(false);
+            }
+        }).catch(() => {
+            user.setIsAuth(false);  // сбрасываем авторизацию при ошибке
         }).finally(() => setLoading(false));
     }, []);
 
