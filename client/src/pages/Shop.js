@@ -10,38 +10,41 @@ import {fetchBrands, fetchDevices, fetchTypes} from "../http/deviceAPI";
 import Pages from "../components/Pages";
 
 const Shop = observer(() => {
-    const {device} = useContext(Context)
+    const { device } = useContext(Context);
 
     useEffect(() => {
-        fetchTypes().then(data => device.setTypes(data))
-        fetchBrands().then(data => device.setBrands(data))
+        fetchTypes().then(data => device.setTypes(data));
+        fetchBrands().then(data => device.setBrands(data));
         fetchDevices(null, null, 1, device.limit).then(data => {
-            device.setDevices(data.rows)
-            device.setTotalCount(data.count)
-        })
-    }, [])
+            device.setDevices(data.rows);
+            device.setTotalCount(data.count);
+        });
+    }, [device.limit]);
 
     useEffect(() => {
-        fetchDevices(device.selectedType.id, device.selectedBrand.id, device.page, device.limit).then(data => {
-            device.setDevices(data.rows)
-            device.setTotalCount(data.count)
-        })
-    }, [device.page, device.selectedType, device.selectedBrand])
+        const selectedTypeIds = device.selectedTypes.map(type => type.id);
+        const selectedBrandIds = device.selectedBrands.map(brand => brand.id);
+
+        fetchDevices(selectedTypeIds, selectedBrandIds, device.page, device.limit).then(data => {
+            device.setDevices(data.rows);
+            device.setTotalCount(data.count);
+        });
+    }, [device.page, device.selectedTypes, device.selectedBrands]);
 
     return (
         <Container>
             <Row>
                 <Col md={3}>
-                    <TypeBar/>
-                </Col >
+                    <TypeBar />
+                    <BrandBar />
+                </Col>
                 <Col md={9}>
-                    <BrandBar/>
-                    <DeviceList/>
-                    <Pages/>
-                </Col >
+                    <DeviceList />
+                    <Pages />
+                </Col>
             </Row>
         </Container>
-    )
-})
+    );
+});
 
 export default Shop;
