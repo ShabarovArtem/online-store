@@ -22,7 +22,7 @@ const NavBar = observer(() => {
     return (
         <Navbar bg="dark" variant="dark">
             <Container>
-                <NavLink style={{ color: 'white' }} to={SHOP_ROUTE}>КупиДевайс</NavLink>
+                <NavLink style={{ color: 'white' }} to={SHOP_ROUTE}>Каталог</NavLink>
                 {user.isAuth ?
                     <Nav className="ms-auto" style={{ color: 'white' }}>
                         <Button

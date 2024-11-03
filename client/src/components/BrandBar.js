@@ -8,6 +8,7 @@ const BrandBar = observer(() => {
     const [expanded, setExpanded] = useState(false);
 
     const handleBrandClick = (brand) => {
+        device.setPage(1);
         if (device.selectedBrands.includes(brand)) {
             // Если бренд уже выбран, убираем его
             device.setSelectedBrands(device.selectedBrands.filter(b => b.id !== brand.id));

@@ -8,6 +8,7 @@ const TypeBar = observer(() => {
     const [expanded, setExpanded] = useState(false);
 
     const handleTypeClick = (type) => {
+        device.setPage(1);
         if (device.selectedTypes.includes(type)) {
             // Если тип уже выбран, убираем его
             device.setSelectedTypes(device.selectedTypes.filter(t => t.id !== type.id));

@@ -40,7 +40,7 @@ const Shop = observer(() => {
                 </Col>
                 <Col md={9}>
                     <DeviceList />
-                    <Pages />
+                    <Pages /> {/* Компонент Pages размещен под DeviceList */}
                 </Col>
             </Row>
         </Container>
