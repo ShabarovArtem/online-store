@@ -8,6 +8,7 @@ import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 import {fetchBrands, fetchDevices, fetchTypes} from "../http/deviceAPI";
 import Pages from "../components/Pages";
+import data from "bootstrap/js/src/dom/data";
 
 const Shop = observer(() => {
     const { device } = useContext(Context);
@@ -16,6 +17,7 @@ const Shop = observer(() => {
         fetchTypes().then(data => device.setTypes(data));
         fetchBrands().then(data => device.setBrands(data));
         fetchDevices(null, null, 1, device.limit).then(data => {
+            console.log(data.rows); // Здесь выведем массив устройств
             device.setDevices(data.rows);
             device.setTotalCount(data.count);
         });
